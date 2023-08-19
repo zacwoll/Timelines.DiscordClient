@@ -1,6 +1,6 @@
-import { MessageService } from "MessageService";
+import { MessageService } from "./MessageService";
 import { DiscordClientWrapper } from './DiscordClientWrapper';
-import { DiscordAuthInterface } from "DiscordClientAuth";
+import { DiscordAuthInterface } from "./DiscordClientAuth";
 import { RabbitmqServiceConfig } from './RabbitmqService';
 
 export interface DiscordClientInterface {
@@ -15,7 +15,9 @@ export interface DiscordClientConfig {
 
 export class DiscordClient {
     // variables here
+    // @ts-ignore
     private client;
+    // @ts-ignore
     private rabbitmq;
 
     // Constructor

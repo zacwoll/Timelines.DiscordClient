@@ -1,17 +1,24 @@
 
 import { Client, Events, GatewayIntentBits } from "discord.js";
 import { Subject } from "rxjs";
-import { Authorization } from "./DiscordClientAuth";
+import { Authorization } from "../src/DiscordClientAuth";
 
 import dotenv from "dotenv";
 dotenv.config();
 
 // Make it so that if these things don't work creation doesn't work mmhmm
-const CLIENT_ID = process.env.DISCORD_CLIENT_ID;
-const CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET;
+const CLIENT_ID = process.env.DISCORD_CLIENT_ID || "";
+const CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET || "";
 // const CLIENT_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
 const redirect_uri = "http://localhost";
 const AUTH_SCOPES = ["bot"];
+
+const botConfig = {
+  clientId: CLIENT_ID,
+  clientSecret: CLIENT_SECRET,
+  redirectUri: redirect_uri,
+  scopes: AUTH_SCOPES
+}
 
 // TODO: Create authorization for DiscordClient. allow bot to join servers and hook up cables to it's data
 export class DiscordClient {
@@ -34,7 +41,7 @@ export class DiscordClient {
         ]
       });
     // Creates a new authorization object
-    this.authorization = new Authorization(CLIENT_ID, CLIENT_SECRET, redirect_uri, AUTH_SCOPES);
+    this.authorization = new Authorization(botConfig);
     // Creates a new Message Subject to observe
     this.messageSubject = new Subject();
     this.guildSubject = new Subject();
@@ -72,8 +79,9 @@ export class DiscordClient {
 
   async registerGuildHandler() {
     this.client.on(Events.GuildCreate, guild => {
+        const guildId = guild.applicationId || "default";
         console.log("Guild Added to Bot");
-        this.guildSubject.next(guild);
+        this.guildSubject.next(guildId);
     });
   }
 
@@ -81,7 +89,7 @@ export class DiscordClient {
   async registerMessageHandler() {
     this.client.on(Events.MessageCreate, (message) => {
       // Emit the received message through the messageSubject
-      this.messageSubject.next(message);
+      this.messageSubject.next(message.content);
     });
   }
 }

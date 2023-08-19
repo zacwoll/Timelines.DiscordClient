@@ -16,6 +16,9 @@ import {
     deps: [
       "amqplib", // RabbitMQ library
       "dotenv", // environment variables
+      "axios",
+      "discord.js",
+      "rxjs"
     ],
     devDeps: [
       "@types/express", // TypeScript definitions for Express
@@ -55,7 +58,7 @@ import {
     },
     tsconfig: {
       compilerOptions: {
-        target: "ES2019",
+        target: "ES2020",
         module: "commonjs",
         lib: ["ESNext"],
         rootDir: ".",
@@ -79,7 +82,8 @@ import {
         "tsconfig.json",
       ],
       exclude: [
-        "lib"
+        "lib",
+        "legacy"
       ]
     },
     jestOptions: {

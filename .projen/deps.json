@@ -99,7 +99,19 @@
       "type": "runtime"
     },
     {
+      "name": "axios",
+      "type": "runtime"
+    },
+    {
+      "name": "discord.js",
+      "type": "runtime"
+    },
+    {
       "name": "dotenv",
+      "type": "runtime"
+    },
+    {
+      "name": "rxjs",
       "type": "runtime"
     }
   ],

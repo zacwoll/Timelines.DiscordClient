@@ -1,8 +1,9 @@
 import { Client, GatewayIntentBits } from "discord.js";
-import { Authorization, DiscordAuthInterface } from "DiscordClientAuth";
+import { Authorization, DiscordAuthInterface } from "./DiscordClientAuth";
 
 export class DiscordClientWrapper {
     // variables
+    // @ts-ignore
     private client: Client;
 
     constructor(client: Client) {
@@ -22,6 +23,7 @@ export class DiscordClientWrapper {
             GatewayIntentBits.GuildEmojisAndStickers,
             ]
         });
+        // @ts-ignore
         const auth = new Authorization(bot_credentials);
         // Log it in
         // client.login(bot_credentials);

@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { DiscordClient } from "DiscordClient";
+import { DiscordClient } from "./DiscordClient";
 
 dotenv.config();
 
