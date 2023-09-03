@@ -99,6 +99,7 @@ import {
         },
       },
     },
+    gitignore: ['.env'],
   });
   
   // const precompileTask = project.tasks.tryFind('pre-compile') || project.addTask('pre-compile');

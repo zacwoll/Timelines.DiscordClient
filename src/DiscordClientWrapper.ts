@@ -1,18 +1,16 @@
 import { Client, GatewayIntentBits } from "discord.js";
 import { Authorization, DiscordAuthInterface } from "./DiscordClientAuth";
 
-export class DiscordClientWrapper {
+// TODO: Needs new method to call that logs the bot in
+
+export abstract class DiscordClientWrapper {
     // variables
     // @ts-ignore
-    private client: Client;
+    public client: Client;
+    public auth: Authorization;
 
-    constructor(client: Client) {
-        this.client = client;
-    }
-
-    static async create(bot_credentials: DiscordAuthInterface): Promise<DiscordClientWrapper> {
-        // Create Client
-        const client = new Client({
+    constructor(bot_credentials: DiscordAuthInterface) {
+        this.client = new Client({
             intents: [
             GatewayIntentBits.Guilds,
             GatewayIntentBits.GuildMessages,
@@ -23,12 +21,7 @@ export class DiscordClientWrapper {
             GatewayIntentBits.GuildEmojisAndStickers,
             ]
         });
-        // @ts-ignore
-        const auth = new Authorization(bot_credentials);
-        // Log it in
-        // client.login(bot_credentials);
-
-        const instance = new DiscordClientWrapper(client);
-        return instance;
+        this.client.login(bot_credentials.loginToken);
+        this.auth = new Authorization(bot_credentials);
     }
 }

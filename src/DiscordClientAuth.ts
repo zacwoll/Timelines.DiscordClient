@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export interface DiscordAuthInterface {
+  loginToken: string;
   clientId: string;
   clientSecret: string;
   redirectUri: string;
