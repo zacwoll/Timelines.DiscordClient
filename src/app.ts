@@ -17,7 +17,7 @@ const rabbitmqServiceConfig = {
 
 console.log(`RabbitMQ Service Config: \n${JSON.stringify(rabbitmqServiceConfig, null, 2)}`);
 
-const redirect_uri = "http://localhost";
+const redirect_uri = process.env.REDIRECT_URI || "http://localhost";
 const AUTH_SCOPES = ["bot"];
 
 const botConfig = {

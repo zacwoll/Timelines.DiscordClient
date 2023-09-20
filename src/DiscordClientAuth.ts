@@ -1,4 +1,5 @@
 import axios from "axios";
+import querystring from 'querystring';
 
 export interface DiscordAuthInterface {
   loginToken: string;
@@ -22,18 +23,52 @@ export class Authorization {
   }
 
   async getAccessToken(code: string): Promise<string> {
+    const data = {
+      client_id: this.clientId,
+      client_secret: this.clientSecret,
+      grant_type: "authorization_code",
+      code,
+      redirect_uri: this.redirectUri,
+      scope: this.scopes,
+    };
+    
+    const formData = querystring.stringify(data);
+    
     const tokenResponse = await axios.post(
       "https://discord.com/api/oauth2/token",
+      formData,
       {
-        client_id: this.clientId,
-        client_secret: this.clientSecret,
-        grant_type: "authorization_code",
-        code,
-        redirect_uri: this.redirectUri,
-        scope: this.scopes,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
       }
     );
 
     return tokenResponse.data.access_token;
+  }
+
+  async postAccessToken(accessToken: string) {
+    const data = {
+      client_id: this.clientId,
+      client_secret: this.clientSecret,
+      grant_type: "authorization_code",
+      code: accessToken,
+      redirect_uri: 'http://localhost:3000/access_token',
+      scope: this.scopes,
+    }
+
+    const formData = querystring.stringify(data);
+
+    const tokenResponse = await axios.post(
+      "https://discord.com/api/oauth2/token",
+      formData,
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }
+    );
+
+    return tokenResponse.data;
   }
 }
